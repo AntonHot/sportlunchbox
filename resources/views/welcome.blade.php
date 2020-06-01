@@ -81,7 +81,7 @@
 
             <div class="content">
                 <div class="title m-b-md links">
-                    <a href="/">Sport Lunch Box</a>
+                    <a href="/home">Sport Lunch Box</a>
                 </div>
             </div>
         </div>
