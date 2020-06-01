@@ -1,8 +1,6 @@
-<p align="center"><img src="http://84.201.189.102/img/logo.png" alt="Sport Lunch Box" width="200"></p>
+<p align="center" style="background-color: black;"><img src="http://84.201.189.102/img/logo.png" alt="Sport Lunch Box" width="200" style="background-color: black; padding: 20px;"></p>
 
 ## Stack
-
-<img src="https://res.cloudinary.com/dtfbvvkyp/image/upload/v1566331377/laravel-logolockup-cmyk-red.svg" width="100" alt="Laravel">
 
 - Laravel 
 - Bootstrap 4, SCSS
@@ -17,7 +15,7 @@
 2. Скопировать файл с настройками и поменять их
 
     ```bash
-    sudo cp /var/www/**projectname**/.env.example /var/www/**projectname**/.env
+    sudo cp /var/www/sportlunchbox/.env.example /var/www/sportlunchbox/.env
     ```
 
 3. Установить зависимости PHP (composer должен быть установлен на машину)
