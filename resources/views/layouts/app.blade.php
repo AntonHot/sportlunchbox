@@ -34,7 +34,6 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <div class="nav-links">
-                        <div class="nav-links--elem"><a href="{{ route('home') }}">Клиенты</a></div>
                         <div class="nav-links--elem"><a href="{{ route('home') }}">Заказы</a></div>
                         <div class="nav-links--elem"><a href="{{ route('home') }}">Пользователи</a></div>
                     </div>

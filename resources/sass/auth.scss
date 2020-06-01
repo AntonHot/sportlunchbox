@@ -1,0 +1,11 @@
+.card {
+    border: 1px solid $black;
+
+    & .card-header {
+        background-color: $black;
+    }
+
+    & .card-body {
+        background-color: $dark;
+    }
+}
