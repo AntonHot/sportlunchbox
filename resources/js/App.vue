@@ -1,8 +1,5 @@
 <template>
     <!-- <router-link to="/dishes">LINK</router-link> -->
-    <!-- <router-link to="/">HOME</router-link> -->
-    <!-- <router-view></router-view> -->
-
   <v-app>
     <v-content>
       <v-container>

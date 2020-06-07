@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Dishes from '../pages/Dishes.vue'
-import Test from '../pages/Test.vue'
 
 Vue.use(VueRouter)
 
@@ -10,11 +9,6 @@ Vue.use(VueRouter)
     path: '/',
     name: 'Dishes',
     component: Dishes
-  },
-  {
-    path: '/dishes',
-    name: 'Test',
-    component: Test
   },
 ]
 

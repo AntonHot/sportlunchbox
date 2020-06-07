@@ -1,78 +1,69 @@
 <template>
-  <div>
-    <h2>Блюда</h2>
-    <table class="table table-sm table-hover">
+<div>
+    <v-simple-table dense>
+        <template v-slot:default>
         <thead>
-            <tr class="text-center">
-                <th class="text-left" scope="col">Название</th>
-                <th scope="col">Вес</th>
-                <th scope="col">Себестоимость</th>
-                <th scope="col">Цена</th>
-                <th scope="col">Белки</th>
-                <th scope="col">Жиры</th>
-                <th scope="col">Углеводы</th>
-                <th scope="col">Ккал</th>
-                <th scope="col">Шаг порции</th>
+            <tr>
+                <th v-for="(value, field) in fields" :key="field" class="text-left">{{ value }}</th>
             </tr>
         </thead>
         <tbody>
-            <tr v-for="dish in dishes" :key="dish.id" class="text-center" scope="row" @click="openModalUpdate(dish)">
-                <td class="text-left">{{ dish.name }}</td>
-                <td>{{ dish.weight }}</td>
-                <td>{{ dish.cost }}</td>
-                <td>{{ dish.price }}</td>
-                <td>{{ dish.protein }}</td>
-                <td>{{ dish.fat }}</td>
-                <td>{{ dish.carb }}</td>
-                <td>{{ dish.calories }}</td>
-                <td>{{ dish.step_of_portion }}</td>
+            <tr v-for="(dish, index) in dishes" :key="index" @click="openDishEditFormModal(constants.EDIT_MODE_UPDATE, dish)">
+                <td v-for="(value, field) in fields" :key="field" class="text-left">{{ dish[field] }}</td>
             </tr>
-            <tr>
-                <td colspan="9">
-                    <v-btn color="primary" block @click="openModalAdd"><v-icon>add</v-icon></v-btn>
+            <tr @click="openDishEditFormModal(constants.EDIT_MODE_ADD, {})">
+                <td :colspan="Object.keys(fields).length" class="text-left">
+                    <v-icon block>add</v-icon>
                 </td>
             </tr>
         </tbody>
-    </table>
-    <dishes-modal-add @closeModal="isShowAddModal = false" :isShow="isShowAddModal" :selectedDish="selectDish" :mode="mode"/>
+        </template>
+    </v-simple-table>
+    <dish-edit-modal @closeModal="isShowEditFormModal = false" :isShow="isShowEditFormModal" :selectedDish="selectDish" :mode="editMode"/>
 </div>
 </template>
 
 <script>
-import DishesModalAdd from "../components/DishesModalAdd"
+import constants from '../constants.js'
+import DishEditModal from '../components/DishEditModal'
 
 export default {
-    data: () => ({
-        dishes: [],
-        selectDish: {},
-        isShowAddModal: false,
-        mode: null
-    }),
+    data: function() {
+        return {
+            fields: {
+                name: 'Название',
+                weight: 'Вес',
+                cost: 'Себестоимость',
+                price: 'Цена',
+                protein: 'Белки',
+                fat: 'Жиры',
+                carb: 'Углеводы',
+                calories: 'Калории',
+                step_of_portion: 'Порция',
+            },
+            dishes: [],
+            selectDish: {},
+            isShowEditFormModal: false,
+            editMode: '',
+            constants: constants
+        }
+    },
     components: {
-        DishesModalAdd
+        DishEditModal,
     },
     created() {
-        this.loadDish();
+        this.loadDishes();
     },
     methods: {
-        async loadDish() {
+        async loadDishes() {
             const response = await axios.get('/api/dishes').catch(error => console.log(error));
             this.dishes = response.data.data;
         },
-        openModalUpdate(dish) {
-            this.mode = 'update';
+        openDishEditFormModal(mode, dish) {
             this.selectDish = dish;
-            this.isShowAddModal = true;
-        },
-        openModalAdd() {
-            this.mode = 'add';
-            this.selectDish = {};
-            this.isShowAddModal = true;
+            this.editMode = mode;
+            this.isShowEditFormModal = true;
         },
     }
 }
 </script>
-
-<style lang="scss" scoped>
-
-</style>
