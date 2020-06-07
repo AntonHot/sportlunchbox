@@ -1,9 +1,6 @@
 <template>
     <v-dialog :value="isShow" max-width="60vw" @input="close()">
         <v-card class="pa-10">
-            <h2 v-if="mode === constants.EDIT_MODE_ADD" class="mb-5"> Добавление блюда</h2>
-            <h2 v-if="mode === constants.EDIT_MODE_UPDATE" class="mb-5">Редактирование блюда</h2>
-
             <v-form>
                 <v-container>
                     <v-row>
@@ -42,8 +39,9 @@
                         </v-col>
                     </v-row>
 
-                    <v-btn v-if="mode === constants.EDIT_MODE_ADD" color="primary" elevation="9" @click="add">Добавить</v-btn>
-                    <v-btn v-if="mode === constants.EDIT_MODE_UPDATE" color="primary" elevation="9" @click="update">Обновить</v-btn>
+                    <v-btn v-if="mode === constants.editMode.ADD" color="success" elevation="9" @click="add">Добавить</v-btn>
+                    <v-btn v-if="mode === constants.editMode.UPDATE" color="primary" elevation="9" @click="update">Обновить</v-btn>
+                    <v-btn v-if="mode === constants.editMode.UPDATE" color="error" elevation="9" @click="destroy">Удалить</v-btn>
                 </v-container>
             </v-form>
         </v-card>
@@ -56,7 +54,18 @@ import constants from '../constants.js'
 export default {
     data: () => ({
         constants: constants,
-        dish: {},
+        dish: {
+            id: '',
+            name: '',
+            weight: '',
+            cost: '',
+            price: '',
+            protein: '',
+            fat: '',
+            carb: '',
+            calories: '',
+            step_of_portion: '',
+        },
         fields: {
             name: 'Название',
             weight: 'Вес',
@@ -67,11 +76,13 @@ export default {
             carb: 'Углеводы',
             calories: 'Калории',
             step_of_portion: 'Порция',
-        }
+        },
     }),
     watch: {
         selectedDish() {
-            this.dish = this.selectedDish;
+            for (const key of Object.keys(this.dish)) {
+                this.dish[key] = this.selectedDish[key];
+            }
         }
     },
     props: {
@@ -88,14 +99,17 @@ export default {
         }
     },
     methods: {
-        close(dish) {
-            this.$emit('closeModal', dish);
+        close(dish = {}, action = null) {
+            this.$emit('closeModal', dish, action);
         },
-        async add() {
-            this.close(this.dish);
+        add() {
+            this.close(this.dish, constants.actions.ADD);
         },
         update() {
-            this.close(this.dish);
+            this.close(this.dish, constants.actions.UPDATE);
+        },
+        destroy() {
+            this.close(this.dish, constants.actions.DELETE);
         }
     }
 }

@@ -4,15 +4,15 @@
         <template v-slot:default>
         <thead>
             <tr>
-                <th v-for="(value, field) in fields" :key="field" class="text-left">{{ value }}</th>
+                <th v-for="(value, field) in fields" :key="field" class="text-center">{{ value }}</th>
             </tr>
         </thead>
         <tbody>
-            <tr v-for="(dish, index) in dishes" :key="index" @click="openDishEditFormModal(constants.EDIT_MODE_UPDATE, dish)">
-                <td v-for="(value, field) in fields" :key="dish[field].id" class="text-left">{{ dish[field] }}</td>
+            <tr v-for="(dish, index) in dishes" :key="index" @click="openDishEditFormModal(constants.editMode.UPDATE, dish)">
+                <td v-for="(value, field) in fields" :key="dish[field].id" class="text-center">{{ dish[field] }}</td>
             </tr>
-            <tr @click="openDishEditFormModal(constants.EDIT_MODE_ADD, {})">
-                <td :colspan="Object.keys(fields).length" class="text-left">
+            <tr @click="openDishEditFormModal(constants.editMode.ADD, {})">
+                <td :colspan="Object.keys(fields).length" class="text-center">
                     <v-icon block>add</v-icon>
                 </td>
             </tr>
@@ -32,14 +32,14 @@ export default {
         return {
             fields: {
                 name: 'Название',
-                weight: 'Вес',
                 cost: 'Себестоимость',
                 price: 'Цена',
+                weight: 'Вес',
+                step_of_portion: 'Порция',
                 protein: 'Белки',
                 fat: 'Жиры',
                 carb: 'Углеводы',
                 calories: 'Калории',
-                step_of_portion: 'Порция',
             },
             dishes: [],
             selectDish: {},
@@ -64,12 +64,28 @@ export default {
             this.editMode = mode;
             this.isShowEditFormModal = true;
         },
-        closeDishEditFormModal(dish) {
+        async closeDishEditFormModal(dish, action) {
             this.isShowEditFormModal = false;
-            console.log(dish);
-
-            // Add or update dish
-            // const response = await axios.post('/api/dishes', this.dish).catch(error => console.log(error));
+            if (Object.keys(dish).length !== 0) {
+                switch (action) {
+                    case constants.actions.ADD:
+                        const response = await axios.post('/api/dishes', dish).catch(error => console.log(error));
+                        break;
+                    case constants.actions.UPDATE:
+                        if (dish.id) {
+                            const response = await axios.patch(`/api/dishes/${dish.id}`, dish).catch(error => console.log(error));
+                        }
+                        break;
+                    case constants.actions.DELETE:
+                        if (dish.id) {
+                            const response = await axios.delete(`/api/dishes/${dish.id}`, dish).catch(error => console.log(error));
+                        }
+                        break;
+                    default:
+                        break;
+                }
+                this.loadDishes();
+            }
         }
     }
 }

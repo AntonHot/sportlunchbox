@@ -17,13 +17,13 @@ class CreateDishesTable extends Migration
             $table->bigIncrements('id');
             $table->string('name', 100);
             $table->string('slug', 100);
-            $table->smallInteger('weight')->unsigned();
-            $table->float('cost', 6, 2);
-            $table->float('price', 6, 2);
-            $table->float('protein', 5, 2);
-            $table->float('fat', 5, 2);
-            $table->float('carb', 5, 2);
-            $table->smallInteger('calories')->unsigned();
+            $table->smallInteger('weight')->unsigned()->nullable();
+            $table->float('cost', 6, 2)->nullable();
+            $table->float('price', 6, 2)->nullable();
+            $table->float('protein', 5, 2)->nullable();
+            $table->float('fat', 5, 2)->nullable();
+            $table->float('carb', 5, 2)->nullable();
+            $table->smallInteger('calories')->unsigned()->nullable();
             $table->float('step_of_portion', 4, 2);
         });
     }
