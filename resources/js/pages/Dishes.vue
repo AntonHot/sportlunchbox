@@ -9,7 +9,7 @@
         </thead>
         <tbody>
             <tr v-for="(dish, index) in dishes" :key="index" @click="openDishEditFormModal(constants.EDIT_MODE_UPDATE, dish)">
-                <td v-for="(value, field) in fields" :key="field" class="text-left">{{ dish[field] }}</td>
+                <td v-for="(value, field) in fields" :key="dish[field].id" class="text-left">{{ dish[field] }}</td>
             </tr>
             <tr @click="openDishEditFormModal(constants.EDIT_MODE_ADD, {})">
                 <td :colspan="Object.keys(fields).length" class="text-left">
@@ -19,7 +19,7 @@
         </tbody>
         </template>
     </v-simple-table>
-    <dish-edit-modal @closeModal="isShowEditFormModal = false" :isShow="isShowEditFormModal" :selectedDish="selectDish" :mode="editMode"/>
+    <dish-edit-modal @closeModal="closeDishEditFormModal" :isShow="isShowEditFormModal" :selectedDish="selectDish" :mode="editMode"/>
 </div>
 </template>
 
@@ -64,6 +64,13 @@ export default {
             this.editMode = mode;
             this.isShowEditFormModal = true;
         },
+        closeDishEditFormModal(dish) {
+            this.isShowEditFormModal = false;
+            console.log(dish);
+
+            // Add or update dish
+            // const response = await axios.post('/api/dishes', this.dish).catch(error => console.log(error));
+        }
     }
 }
 </script>

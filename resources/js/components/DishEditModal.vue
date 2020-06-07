@@ -1,14 +1,51 @@
 <template>
     <v-dialog :value="isShow" max-width="60vw" @input="close()">
-        <v-card v-if="mode === constants.EDIT_MODE_ADD" class="pa-10">
-            <h2>Добавление блюда</h2>
-            <v-text-field v-for="(attr, key) in dish" :key="key" :label="key" outlined dense v-model="dish[key]"></v-text-field>
-            <v-btn color="primary" elevation="9" @click="add">Добавить</v-btn>
-        </v-card>
-        <v-card v-else-if="mode === constants.EDIT_MODE_UPDATE" class="pa-10">
-            <h2>Редактирование блюда</h2>
-            <v-text-field v-for="(attr, key) in dish" :key="key" :label="key" outlined dense v-model="dish[key]"></v-text-field>
-            <v-btn color="primary" elevation="9" @click="update">Обновить</v-btn>
+        <v-card class="pa-10">
+            <h2 v-if="mode === constants.EDIT_MODE_ADD" class="mb-5"> Добавление блюда</h2>
+            <h2 v-if="mode === constants.EDIT_MODE_UPDATE" class="mb-5">Редактирование блюда</h2>
+
+            <v-form>
+                <v-container>
+                    <v-row>
+                        <v-col col="12" md="12">
+                            <v-text-field :label="fields.name" outlined dense v-model="dish.name"></v-text-field>
+                        </v-col>
+                    </v-row>
+
+                    <v-row>
+                        <v-col cols="12" md="3">
+                            <v-text-field :label="fields.cost" outlined dense v-model="dish.cost"></v-text-field>
+                        </v-col>
+                        <v-col cols="12" md="3">
+                            <v-text-field :label="fields.price" outlined dense v-model="dish.price"></v-text-field>
+                        </v-col>
+                        <v-col cols="12" md="3">
+                            <v-text-field :label="fields.weight" outlined dense v-model="dish.weight"></v-text-field>
+                        </v-col>
+                        <v-col cols="12" md="3">
+                            <v-text-field :label="fields.step_of_portion" outlined dense v-model="dish.step_of_portion"></v-text-field>
+                        </v-col>
+                    </v-row>
+
+                    <v-row>
+                        <v-col cols="12" md="3">
+                            <v-text-field :label="fields.protein" outlined dense v-model="dish.protein"></v-text-field>
+                        </v-col>
+                        <v-col cols="12" md="3">
+                            <v-text-field :label="fields.fat" outlined dense v-model="dish.fat"></v-text-field>
+                        </v-col>
+                        <v-col cols="12" md="3">
+                            <v-text-field :label="fields.carb" outlined dense v-model="dish.carb"></v-text-field>
+                        </v-col>
+                        <v-col cols="12" md="3">
+                            <v-text-field :label="fields.calories" outlined dense v-model="dish.calories"></v-text-field>
+                        </v-col>
+                    </v-row>
+
+                    <v-btn v-if="mode === constants.EDIT_MODE_ADD" color="primary" elevation="9" @click="add">Добавить</v-btn>
+                    <v-btn v-if="mode === constants.EDIT_MODE_UPDATE" color="primary" elevation="9" @click="update">Обновить</v-btn>
+                </v-container>
+            </v-form>
         </v-card>
     </v-dialog>
 </template>
@@ -19,28 +56,22 @@ import constants from '../constants.js'
 export default {
     data: () => ({
         constants: constants,
-        dish: {
-            name: '',
-            weight: '',
-            cost: '',
-            price: '',
-            step_of_portion: '',
-            protein: '',
-            fat: '',
-            carb: '',
-            calories: '',
-        },
+        dish: {},
+        fields: {
+            name: 'Название',
+            weight: 'Вес',
+            cost: 'Себестоимость',
+            price: 'Цена',
+            protein: 'Белки',
+            fat: 'Жиры',
+            carb: 'Углеводы',
+            calories: 'Калории',
+            step_of_portion: 'Порция',
+        }
     }),
     watch: {
         selectedDish() {
-            const keys = Object.keys(this.dish);
-            for (const key of keys) {
-                if (this.mode === constants.EDIT_MODE_UPDATE) {
-                    this.dish[key] = this.selectedDish[key];
-                } else if (this.mode === constants.EDIT_MODE_ADD) {
-                    this.dish[key] = '';
-                }
-            }
+            this.dish = this.selectedDish;
         }
     },
     props: {
@@ -57,22 +88,15 @@ export default {
         }
     },
     methods: {
-        close() {
-            this.$emit('closeModal', false);
+        close(dish) {
+            this.$emit('closeModal', dish);
         },
         async add() {
-            console.log(this.dish);
-            // const response = await axios.post('/api/dishes', this.dish).catch(error => console.log(error));
-            this.close();
+            this.close(this.dish);
         },
         update() {
-            console.log(this.dish);
-            this.close();
+            this.close(this.dish);
         }
     }
 }
 </script>
-
-<style lang="scss">
-
-</style>
