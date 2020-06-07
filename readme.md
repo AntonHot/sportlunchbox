@@ -1,13 +1,12 @@
 <p align="center" style="background-color: black;"><img src="http://84.201.189.102/img/logo.png" alt="Sport Lunch Box" width="200" style="background-color: black; padding: 20px;"></p>
 
-## Stack
+## Technologies
 
-- Laravel 
-- Bootstrap 4, SCSS
-- NGINX, PHP-FPM, MySQL
-- Git
-- Docker (dev)
-- Yandex Cloud (prod)
+- PHP, Laravel 
+- Vue.js
+- MySQL
+- NGINX, PHP-FPM, Docker(for dev)
+- Production: Yandex Cloud
 
 ## Deploy app
 
