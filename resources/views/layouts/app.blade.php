@@ -20,7 +20,7 @@
 </head>
 <body>
 
-    <div id="app" class="container mt-5">
+    <div id="app">
         <app/>
     </div>
 

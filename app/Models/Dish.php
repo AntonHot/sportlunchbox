@@ -7,10 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 class Dish extends Model
 {
     const STEP_DEFAULT = '0.25';
-    
-    protected $table = 'dishes';
 
     public $timestamps = false;
+
+    protected $attributes = [
+        'step_of_portion' => self::STEP_DEFAULT,
+    ];
 
     /**
      * The attributes that are mass assignable.
@@ -27,6 +29,5 @@ class Dish extends Model
         'fat',
         'carb',
         'calories',
-        'step_of_portion',
     ];
 }

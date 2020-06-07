@@ -1,26 +1,42 @@
 <template>
-<div>
-    <v-simple-table dense>
-        <template v-slot:default>
-        <thead>
-            <tr>
-                <th v-for="(value, field) in fields" :key="field" class="text-center">{{ value }}</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr v-for="(dish, index) in dishes" :key="index" @click="openDishEditFormModal(constants.editMode.UPDATE, dish)">
-                <td v-for="(value, field) in fields" :key="dish[field].id" class="text-center">{{ dish[field] }}</td>
-            </tr>
-            <tr @click="openDishEditFormModal(constants.editMode.ADD, {})">
-                <td :colspan="Object.keys(fields).length" class="text-center">
-                    <v-icon block>add</v-icon>
-                </td>
-            </tr>
-        </tbody>
-        </template>
-    </v-simple-table>
-    <dish-edit-modal @closeModal="closeDishEditFormModal" :isShow="isShowEditFormModal" :selectedDish="selectDish" :mode="editMode"/>
-</div>
+    <div>
+        <v-simple-table dense>
+            <template v-slot:default>
+            <thead>
+                <tr>
+                    <th class="text-left">{{ fields.name }}</th>
+                    <th class="text-center">{{ fields.cost }}</th>
+                    <th class="text-center">{{ fields.price }}</th>
+                    <th class="text-center">{{ fields.weight }}</th>
+                    <th class="text-center">{{ fields.step_of_portion }}</th>
+                    <th class="text-center">{{ fields.protein }}</th>
+                    <th class="text-center">{{ fields.fat }}</th>
+                    <th class="text-center">{{ fields.carb }}</th>
+                    <th class="text-center">{{ fields.calories }}</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="(dish, index) in dishes" :key="index" @click="openDishEditFormModal(constants.editMode.UPDATE, dish)">
+                    <td class="text-left">{{ dish.name }}</td>
+                    <td class="text-center">{{ dish.cost }}</td>
+                    <td class="text-center">{{ dish.price }}</td>
+                    <td class="text-center">{{ dish.weight }}</td>
+                    <td class="text-center">{{ dish.step_of_portion }}</td>
+                    <td class="text-center">{{ dish.protein }}</td>
+                    <td class="text-center">{{ dish.fat }}</td>
+                    <td class="text-center">{{ dish.carb }}</td>
+                    <td class="text-center">{{ dish.calories }}</td>
+                </tr>
+                <tr @click="openDishEditFormModal(constants.editMode.ADD, {})">
+                    <td :colspan="Object.keys(fields).length" class="text-center">
+                        <v-icon block>add</v-icon>
+                    </td>
+                </tr>
+            </tbody>
+            </template>
+        </v-simple-table>
+        <dish-edit-modal @closeModal="closeDishEditFormModal" :isShow="isShowEditFormModal" :selectedDish="selectDish" :mode="editMode"/>
+    </div>
 </template>
 
 <script>

@@ -48,7 +48,6 @@ class DishController extends Controller
             'fat' => $request->input('fat'),
             'carb' => $request->input('carb'),
             'calories' => $request->input('calories'),
-            'step_of_portion' => $request->input('step_of_portion') || Dish::STEP_DEFAULT,
         ]);
     }
 
@@ -94,8 +93,10 @@ class DishController extends Controller
             'fat' => $request->get('fat'),
             'carb' => $request->get('carb'),
             'calories' => $request->get('calories'),
-            'step_of_portion' => $request->get('step_of_portion') || Dish::STEP_DEFAULT,
         ]);
+        if (!empty($request->input('step_of_portion'))) {
+            $dish->step_of_portion = $request->input('step_of_portion');
+        }
         dd($dish->save());
     }
 

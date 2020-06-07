@@ -1,12 +1,7 @@
 <template>
-    <!-- <router-link to="/dishes">LINK</router-link> -->
-  <v-app>
-    <v-content>
-      <v-container>
+    <v-app>
         <router-view></router-view>
-      </v-container>
-    </v-content>
-  </v-app>
+    </v-app>
 </template>
 
 <script>
