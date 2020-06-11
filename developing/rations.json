@@ -1,0 +1,43 @@
+[
+    {
+        "id": 11687,
+        "date": "25/05/2020",
+        "size": "1200",
+        "meals": [
+            {
+                "meal": "Завтрак 1",
+                "order": 1,
+                "code": "breakfast1",
+                "portion": 1.25,
+                "dish": {
+                    "name": "Гранола",
+                    "protein": 13,
+                    "fat": 4,
+                    "carb": 45,
+                    "calories": 325,
+                    "weight": 200,
+                    "cost": "24.23",
+                    "price": "123.2",
+                    "step_of_portion": 0.25
+                }
+            },
+            {
+                "meal": "Обед",
+                "order": 2,
+                "code": "lunch",
+                "portion": 1.5,
+                "dish": {
+                    "name": "Суп",
+                    "protein": 13,
+                    "fat": 4,
+                    "carb": 45,
+                    "calories": 325,
+                    "weight": 200,
+                    "cost": "24.23",
+                    "price": "123.2",
+                    "step_of_portion": 0.25
+                }
+            }
+        ]
+    }
+]
