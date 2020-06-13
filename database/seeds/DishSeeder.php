@@ -14,24 +14,20 @@ class DishSeeder extends Seeder
      */
     public function run()
     {
-        $name = 'Гранола с йогуртом';
-        DB::table('dishes')->insert([
-            'name' => $name,
-            'slug' => Str::slug($name, '-'),
-            'weight' => 156,
-            'cost' => 29,
-            'price' => '101.5',
-            'protein' => '9.7',
-            'fat' => '14.7',
-            'carb' => '47.6',
-            'calories' => 362,
-            'step_of_portion' => Dish::STEP_DEFAULT,
-        ]);
+        $dish = new Dish();
+        $dish->name = 'Гранола с йогуртом';
+        $dish->weight = 157;
+        $dish->cost = 29;
+        $dish->price = 101.5;
+        $dish->protein = 9.7;
+        $dish->fat = 14.7;
+        $dish->carb = 47.6;
+        $dish->calories = 362;
+        $dish->step_of_portion = Dish::STEP_DEFAULT;
+        $dish->save();
 
-        $name = 'Куриный бульон с зеленью';
         DB::table('dishes')->insert([
-            'name' => $name,
-            'slug' => Str::slug($name, '-'),
+            'name' => 'Куриный бульон с зеленью',
             'weight' => 209,
             'cost' => 26,
             'price' => '91',

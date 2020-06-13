@@ -11,6 +11,12 @@ class RationComposition extends Model
 
     public $timestamps = false;
 
+    const PORTION_DEFAULT = 1;
+
+    protected $attributes = [
+        'portion' => self::PORTION_DEFAULT,
+    ];
+
     public function meal()
     {
         return $this->belongsTo(Meal::class);

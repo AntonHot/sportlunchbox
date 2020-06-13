@@ -17,4 +17,6 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::resource('dishes', 'Api\DishController');
 
-Route::resource('rations', 'Api\RationController');
+// Route::resource('rations', 'Api\RationController');
+
+Route::get('menu/{from?}/{to?}', 'Api\MenuController@days');

@@ -21,7 +21,6 @@ class Dish extends Model
      */
     protected $fillable = [
         'name',
-        'slug',
         'weight',
         'cost',
         'price',

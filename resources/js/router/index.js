@@ -1,46 +1,27 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Admin from '../pages/Admin.vue'
-import Dishes from '../pages/Dishes.vue'
+import Menu from '../components/Menu.vue'
 
 Vue.use(VueRouter)
-    const routes = [
+
+const routes = [
     {
-        path: '/',
-        name: 'Admin',
-        component: Admin
-    },
-    {
-        path: '/dishes',
-        name: 'Dishes',
-        component: Dishes
-    },
-    {
-        path: '/users',
-        name: 'Dishes',
-        component: Dishes
-    },
-    {
-        path: '/menu',
-        name: 'Dishes',
-        component: Dishes
-    },
-    {
-        path: '/contacts',
-        name: 'Dishes',
-        component: Dishes
-    },
-    {
-        path: '/orders',
-        name: 'Dishes',
-        component: Dishes
-    },
+        path: '/admin',
+        component: Admin,
+        children: [
+            {
+                path: '',
+                component: Menu
+            }
+        ]
+    }
 ]
 
 const router = new VueRouter({
-  mode: 'history',
-  base: process.env.BASE_URL,
-  routes
+    mode: 'history',
+    base: process.env.BASE_URL,
+    routes
 })
 
 export default router

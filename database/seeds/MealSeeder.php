@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Meal;
 use Illuminate\Support\Str;
 use Illuminate\Database\Seeder;
 
@@ -16,15 +17,17 @@ class MealSeeder extends Seeder
         $names = [
             'breakfast1' => 'Завтрак 1',
             'breakfast2' => 'Завтрак 2',
-            'lunch' => 'Обед',
-            'snack' => 'Перекус'
+            'lunch1' => 'Первое',
+            'lunch2' => 'Второе',
+            'snack' => 'Перекус',
+            'dinner' => 'Ужин',
         ];
         foreach ($names as $code => $name) {
-            DB::table('meals')->insert([
-                'name' => $name,
-                'code' => $code,
-                'order' => $i++
-            ]);
+            $meal = new Meal();
+            $meal->name = $name;
+            $meal->code = $code;
+            $meal->order = $i++;
+            $meal->save();
         }
     }
 }

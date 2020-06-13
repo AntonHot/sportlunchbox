@@ -16,7 +16,6 @@ class CreateDishesTable extends Migration
         Schema::create('dishes', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name', 100);
-            $table->string('slug', 100);
             $table->smallInteger('weight')->unsigned()->nullable();
             $table->float('cost', 6, 2)->nullable();
             $table->float('price', 6, 2)->nullable();

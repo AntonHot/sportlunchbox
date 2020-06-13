@@ -2,10 +2,14 @@
 
 namespace App\Http\Controllers\Api;
 
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
+use App\Helpers\RationDate;
+use App\Models\Dish;
 use App\Models\Meal;
 use App\Models\Ration;
+use Illuminate\Support\Arr;
+use Illuminate\Http\Request;
+use App\Models\RationComposition;
+use App\Http\Controllers\Controller;
 
 class RationController extends Controller
 {
@@ -24,7 +28,7 @@ class RationController extends Controller
                 $meal = $comp->meal;
                 $dish = $meal->dish->first();
                 $meals[] = [
-                    'meal' => $meal->name,
+                    'name' => $meal->name,
                     'code' => $meal->code,
                     'order' => $meal->order,
                     'portion' => $comp->portion,
@@ -71,7 +75,22 @@ class RationController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $ration = new Ration();
+        $ration->date = RationDate::today();
+        $ration->size = Arr::random($ration::SIZES);
+        $ration->save();
+
+        $meals = Meal::all();
+
+        foreach ($meals as $meal) {            
+            $dish = Dish::find(rand(1, 2));
+    
+            $comp = new RationComposition();
+            $ration->compositions()->save($comp);
+            $comp->meal()->associate($meal);
+            $comp->dish()->associate($dish);
+            $comp->save();
+        }
     }
 
     /**

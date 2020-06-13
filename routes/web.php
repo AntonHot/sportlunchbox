@@ -17,4 +17,4 @@
 
 // Auth::routes();
 
-Route::get('/{method?}', 'AppController@index')->name('app');
+Route::get('/admin/{method?}', 'AppController@index')->name('app');

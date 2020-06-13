@@ -2,6 +2,7 @@
 
 use App\Models\Dish;
 use App\Models\Meal;
+use Illuminate\Support\Arr;
 use Illuminate\Database\Seeder;
 
 class RationCompositionsSeeder extends Seeder
@@ -18,13 +19,13 @@ class RationCompositionsSeeder extends Seeder
                 'ration_id' => 1,
                 'meal_id' => $meal->id,
                 'dish_id' => Dish::all()->random()->id,
-                'portion' => 1,
+                'portion' => Arr::random([0.75, 1, 1.25, 1.5]),
             ]);
             DB::table('ration_compositions')->insert([
                 'ration_id' => 2,
                 'meal_id' => $meal->id,
                 'dish_id' => Dish::all()->random()->id,
-                'portion' => '0.75',
+                'portion' => Arr::random([0.75, 1, 1.25, 1.5]),
             ]);
         }
         

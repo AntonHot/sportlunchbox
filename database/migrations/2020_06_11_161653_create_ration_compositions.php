@@ -15,9 +15,9 @@ class CreateRationCompositions extends Migration
     {
         Schema::create('ration_compositions', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('ration_id');
-            $table->unsignedBigInteger('meal_id');
-            $table->unsignedBigInteger('dish_id');
+            $table->bigInteger('ration_id')->unsigned();
+            $table->bigInteger('meal_id')->unsigned()->nullable();
+            $table->bigInteger('dish_id')->unsigned()->nullable();
             $table->float('portion', 4, 2);
 
             $table->foreign('ration_id')->references('id')->on('rations')->onDelete('cascade');

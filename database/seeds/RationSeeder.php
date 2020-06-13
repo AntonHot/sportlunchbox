@@ -1,6 +1,8 @@
 <?php
 
+use App\Helpers\RationDate;
 use App\Models\Ration;
+use Illuminate\Support\Arr;
 use Illuminate\Database\Seeder;
 
 class RationSeeder extends Seeder
@@ -12,13 +14,11 @@ class RationSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('rations')->insert([
-            'date' => date('Y-m-d'),
-            'size' => Ration::SIZES[array_rand(Ration::SIZES)]
-        ]);
-        DB::table('rations')->insert([
-            'date' => date('Y-m-d'),
-            'size' => Ration::SIZES[array_rand(Ration::SIZES)]
-        ]);
+        for ($i = 0; $i < 2; $i++) { 
+            $ration = new Ration();
+            $ration->date = RationDate::today();
+            $ration->size = Arr::random(Ration::SIZES);
+            $ration->save();
+        }
     }
 }

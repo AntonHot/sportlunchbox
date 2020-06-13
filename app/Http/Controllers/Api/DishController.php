@@ -40,7 +40,6 @@ class DishController extends Controller
     {
         $dish = Dish::create([
             'name' => $request->input('name'),
-            'slug' => Str::slug($request->input('name'), '-'),
             'weight' => $request->input('weight'),
             'cost' => $request->input('cost'),
             'price' => $request->input('price'),
@@ -85,7 +84,6 @@ class DishController extends Controller
         $dish = Dish::find($id);
         $dish->fill([
             'name' => $request->get('name'),
-            'slug' => Str::slug($request->get('name'), '-'),
             'weight' => $request->get('weight'),
             'cost' => $request->get('cost'),
             'price' => $request->get('price'),
