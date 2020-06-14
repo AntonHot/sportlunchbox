@@ -1,36 +1,37 @@
 <template>
     <div class="ration">
         <div class="title flex-center">
-            <div class="date">25.06.2020</div>
-            <div class="day">Понедельник</div>
-        </div>
-        <div class="meals">
-            <meal></meal>
-            <meal></meal>
-            <meal></meal>
-            <meal></meal>
-            <meal></meal>
-            <meal></meal>
+            <div class="date unselectable">{{ normalizeDate }}</div>
+            <div class="day unselectable">{{ weekday }}</div>
+        </div> 
+        <div v-if="isEmpty" class="meals">
+            <meal v-for="(meal, index) in ration.meals" :key="index" :currentMeal="meal"></meal>
         </div>
         <div class="params">
             <div class="param flex-center">
                 <div class="param-title">Себестоимость</div>
-                <div class="param-value">999.99</div>
+                <div class="param-value">{{ ration.params.cost }}</div>
             </div>
             <div class="param flex-center">
                 <div class="param-title">Цена</div>
-                <div class="param-value">999.99</div>
+                <div class="param-value">{{ ration.params.price }}</div>
             </div>
             <div class="param flex-center">
                 <div class="param-title">Калории</div>
-                <div class="param-value">1200</div>
+                <div class="param-value">{{ ration.params.calories }}</div>
             </div>
-            <div class="param flex-center">
-                <div class="param-title">БЖУ</div>
-                <div class="sub-params">
-                    <div class="sub-param-value">99.9</div>
-                    <div class="sub-param-value">99.9</div>
-                    <div class="sub-param-value">99.9</div>
+            <div class="param param-bgu flex-center">
+                <div class="bgu-param flex-center">
+                    <div class="param-title">Б</div>
+                    <div class="sub-param-value">{{ ration.params.protein }}</div>
+                </div>
+                <div class="bgu-param flex-center">
+                    <div class="param-title">Ж</div>
+                    <div class="sub-param-value">{{ ration.params.fat }}</div>
+                </div>
+                <div class="bgu-param flex-center">
+                    <div class="param-title">У</div>
+                    <div class="sub-param-value">{{ ration.params.carb }}</div>
                 </div>
             </div>
         </div>
@@ -39,11 +40,47 @@
 </template>
 
 <script>
+import constants from '../constants.js'
 import Meal from './Meal'
 
 export default {
     components: {
         Meal
+    },
+    data: () => ({
+        constants: constants,
+        isEmpty: true,
+        ration: {
+            params: {
+                cost: '',
+            }
+        },
+    }),
+    created() {
+        this.load();
+    },
+    methods: {
+        load() {
+            this.ration = this.currentRation;
+        },
+    },
+    props: {
+        currentRation: {
+            type: Object
+        }
+    },
+    watch: {
+        currentRation() {
+            this.ration = this.currentRation;
+        }
+    },
+    computed: {
+        normalizeDate: function () {
+            return constants.formatDate(this.ration.date);
+        },
+        weekday: function() {
+            return constants.weekdayByDate(this.ration.date);
+        }
     },
 }
 </script>
@@ -62,10 +99,10 @@ export default {
         margin: 0 1px;
         color: $gray6;
         padding: 0 12px;
+        max-width: 350px;
 
         display: flex;
         flex-direction: column;
-        // justify-content: center;
 
         & .title {
             min-height: 60px;
@@ -73,7 +110,7 @@ export default {
 
             & .date {
                 font-size: 1.5rem;
-                font-weight: 100;
+                font-weight: 700;
             }
 
             & .day {
@@ -82,14 +119,11 @@ export default {
                 line-height: 16px;
             }
         }
-
-        & .meals {
-
-        }
         
         & .params {
             display: flex;
             flex-wrap: wrap;
+            user-select: none;
 
             & .param {
                 flex: 1;
@@ -116,11 +150,25 @@ export default {
 
                 & .sub-params {
                     display: flex;
+
                     & .sub-param-value {
                         font-size: 0.9rem;
                         line-height: 1.5rem;
                         font-weight: 700;
                         margin: 0 4px;
+                    }
+                }
+            }
+
+            & .param-bgu {
+                flex-direction: row;
+
+                & .bgu-param {
+                    flex: 1;
+                    flex-direction: column;
+
+                    & .sub-param-value {
+                        font-weight: 700;
                     }
                 }
             }

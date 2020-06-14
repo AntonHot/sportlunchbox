@@ -1,16 +1,16 @@
 <template>
     <div class="meal">
-        <div class="title">
-            <span>Граноласйогуртомраноласйог уртомраноласйогуртомранола с йогуртомранола с йогуртомранола с йогуртомранола с йогуртомранола с йогуртомранола с йогуртомранола с йогуртомранола с йогуртомранола с йогуртомранола с йогуртомранола с йогуртом</span>
+        <div class="title unselectable">
+            <span>{{ meal.dish.name }}</span>
         </div>
         <div class="portion-selector">
-            <div class="btn plus flex-center">
+            <div class="btn plus flex-center" @click="portionUp()">
                 <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M15 10.5H10.5V15H7.5V10.5H3V7.5H7.5V3H10.5V7.5H15V10.5Z" fill="#F2F2F2"/>
                 </svg>
             </div>
-            <div class="input flex-center"><span>1.25</span></div>
-            <div class="btn minus flex-center">
+            <div class="input flex-center unselectable"><span>{{ meal.portion }}</span></div>
+            <div class="btn minus flex-center" @click="portionDown()">
                 <svg width="20" height="21" viewBox="0 0 20 21" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M15 11.8125H5V9.1875H15V11.8125Z" fill="#F2F2F2"/>
                 </svg>
@@ -26,6 +26,47 @@
     </div> -->
 </template>
 
+<script>
+import constants from '../constants.js'
+
+export default {
+    components: {},
+    data: () => ({
+        constants: constants,
+        meal: {},
+    }),
+    created() {
+        this.load();
+    },
+    methods: {
+        load() {
+            this.meal = this.currentMeal;
+        },
+        randomPortion() {
+            let portions = [0.75, 1, 1.25, 1.5, 2];
+            let i = parseInt(Math.random() * portions.length);
+            return portions[i];
+        },
+        portionUp() {
+            this.meal.portion += this.meal.dish.step_of_portion;
+        },
+        portionDown() {
+            this.meal.portion -= this.meal.dish.step_of_portion;
+        },
+    },
+    props: {
+        currentMeal: {
+            type: Object
+        }
+    },
+    watch: {
+        currentMeal() {
+            this.meal = this.currentMeal;
+        }
+    },
+}
+</script>
+
 <style lang="scss" scoped>
 
     @import '../../sass/variables';
@@ -36,6 +77,7 @@
         border: 1px solid $blue2;
         box-sizing: border-box;
         border-radius: 2px;
+        min-width: 260px;
         height: 70px;
         margin: 3px 0;
 
@@ -82,6 +124,10 @@
                     &:hover {
                         opacity: 1;
                     }
+                }
+
+                &:active {
+                    background-color: #95C1E2;
                 }
             }
 

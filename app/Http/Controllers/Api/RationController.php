@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Helpers\RationDate;
 use App\Models\Dish;
 use App\Models\Meal;
 use App\Models\Ration;
+use App\Helpers\RationDate;
 use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
 use App\Models\RationComposition;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 
 class RationController extends Controller
@@ -136,5 +137,77 @@ class RationController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function list(Request $request) {
+        $dateFrom = $request->dateFrom;
+        $dateTo = $request->dateTo;
+
+        $rations = DB::table('rations')->where([
+            ['date', '>=', $dateFrom],
+            ['date', '<=', $dateTo],
+        ])->orderBy('date', 'asc')->get('id');
+
+        if ($rations->isEmpty()) {
+            return [];
+        }
+        
+        foreach ($rations as $item) {
+            $ration = Ration::where('id', $item->id)->first();
+
+            $meals = [];
+            // $rationCost = 0;
+            // $rationPrice = 0;
+            // $rationCalories = 0;
+            // $rationProtein = 0;
+            // $rationFat = 0;
+            // $rationCarb = 0;
+            foreach ($ration->compositions as $comp) {
+                $meal = $comp->meal;
+                $dish = $comp->dish;
+
+                // $rationCost += $dish->cost;
+                // $rationPrice += $dish->price;
+                // $rationCalories += $dish->calories;
+                // $rationProtein += $dish->protein;
+                // $rationFat += $dish->fat;
+                // $rationCarb += $dish->carb;
+
+                $meals[] = [
+                    'name' => $meal->name,
+                    'code' => $meal->code,
+                    'order' => $meal->order,
+                    'portion' => $comp->portion,
+                    'dish' => [
+                        'name' => $dish->name,
+                        'protein' => $dish->protein,
+                        'fat' => $dish->fat,
+                        'carb' => $dish->carb,
+                        'calories' => $dish->calories,
+                        'weight' => $dish->weight,
+                        'cost' => $dish->cost,
+                        'price' => $dish->price,
+                        'step_of_portion' => $dish->step_of_portion,
+                    ],
+                ];
+            }
+
+            $result[] = [
+                'id' => $ration->id,
+                'date' => $ration->date,
+                'size' => $ration->size,
+                'meals' => $meals,
+                // 'params' => [
+                //     'cost' => round($rationCost, 2),
+                //     'price' => round($rationPrice, 2),
+                //     'calories' => $rationCalories,
+                //     'protein' => round($rationProtein, 1),
+                //     'fat' => round($rationFat, 1),
+                //     'carb' => round($rationCarb, 1),
+                // ],
+            ];
+        }
+
+        return $result;
     }
 }

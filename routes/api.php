@@ -15,8 +15,10 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::resource('dishes', 'Api\DishController');
+// Route::resource('dishes', 'Api\DishController');
 
 // Route::resource('rations', 'Api\RationController');
 
-Route::get('menu/{from?}/{to?}', 'Api\MenuController@days');
+// Route::get('menu/{from?}/{to?}', 'Api\MenuController@days');
+
+Route::post('rations', 'Api\RationController@list');

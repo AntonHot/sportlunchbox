@@ -1,5 +1,5 @@
 <template>
-    <div class="admin-panel">
+    <div class="admin-panel unselectable">
         <div class="header">
             <img class="logo" src="/img/logo.png" alt="">
             <div class="navbar">
