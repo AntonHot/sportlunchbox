@@ -3,39 +3,49 @@
         <div class="title flex-center">
             <div class="date unselectable">{{ normalizeDate }}</div>
             <div class="day unselectable">{{ weekday }}</div>
-        </div> 
-        <div v-if="isEmpty" class="meals">
-            <meal v-for="(meal, index) in ration.meals" :key="index" :currentMeal="meal"></meal>
         </div>
-        <div class="params">
-            <div class="param flex-center">
-                <div class="param-title">Себестоимость</div>
-                <div class="param-value">{{ ration.params.cost }}</div>
+        <div v-if="isEmpty" class="ration-full">
+            <div class="meals">
+                <meal v-for="(meal, index) in ration.meals" :key="index" :currentMeal="meal"></meal>
             </div>
-            <div class="param flex-center">
-                <div class="param-title">Цена</div>
-                <div class="param-value">{{ ration.params.price }}</div>
-            </div>
-            <div class="param flex-center">
-                <div class="param-title">Калории</div>
-                <div class="param-value">{{ ration.params.calories }}</div>
-            </div>
-            <div class="param param-bgu flex-center">
-                <div class="bgu-param flex-center">
-                    <div class="param-title">Б</div>
-                    <div class="sub-param-value">{{ ration.params.protein }}</div>
+            <div class="params">
+                <div class="param flex-center">
+                    <div class="param-title">Себестоимость</div>
+                    <div class="param-value">{{ rationCost }}</div>
                 </div>
-                <div class="bgu-param flex-center">
-                    <div class="param-title">Ж</div>
-                    <div class="sub-param-value">{{ ration.params.fat }}</div>
+                <div class="param flex-center">
+                    <div class="param-title">Цена</div>
+                    <div class="param-value">{{ rationPrice }}</div>
                 </div>
-                <div class="bgu-param flex-center">
-                    <div class="param-title">У</div>
-                    <div class="sub-param-value">{{ ration.params.carb }}</div>
+                <div class="param flex-center">
+                    <div class="param-title">Калории</div>
+                    <div class="param-value">{{ rationCalories }}</div>
+                </div>
+                <div class="param param-bgu flex-center">
+                    <div class="bgu-param flex-center">
+                        <div class="param-title">Б</div>
+                        <div class="sub-param-value">{{ rationProtein }}</div>
+                    </div>
+                    <div class="bgu-param flex-center">
+                        <div class="param-title">Ж</div>
+                        <div class="sub-param-value">{{ rationFat }}</div>
+                    </div>
+                    <div class="bgu-param flex-center">
+                        <div class="param-title">У</div>
+                        <div class="sub-param-value">{{ rationCarb }}</div>
+                    </div>
                 </div>
             </div>
+            <v-btn class="btn-save" color="#2D9CDB" elevation="9" >Сохранить</v-btn>
         </div>
-        <v-btn class="btn-save" color="#2D9CDB" elevation="9" >Сохранить</v-btn>
+        <div v-else class="ration-empty">
+            <div class="area-button-add flex-center">
+                <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M15 10.5H10.5V15H7.5V10.5H3V7.5H7.5V3H10.5V7.5H15V10.5Z" />
+                </svg>
+            </div>
+            <v-btn class="btn-save" color="#EB5757" elevation="9" >Добавить меню</v-btn>
+        </div>
     </div>
 </template>
 
@@ -63,6 +73,13 @@ export default {
         load() {
             this.ration = this.currentRation;
         },
+        sumParams(paramName) {
+            let value = 0;
+            this.ration.meals.forEach((meal) => {
+                value += meal.dish[paramName];
+            });
+            return value;
+        },
     },
     props: {
         currentRation: {
@@ -80,7 +97,25 @@ export default {
         },
         weekday: function() {
             return constants.weekdayByDate(this.ration.date);
-        }
+        },
+        rationCost() {
+            return this.sumParams('cost').toFixed(2);
+        },
+        rationPrice() {
+            return this.sumParams('price').toFixed(2);
+        },
+        rationCalories() {
+            return this.sumParams('calories');
+        },
+        rationProtein() {
+            return this.sumParams('protein').toFixed(0);
+        },
+        rationFat() {
+            return this.sumParams('fat').toFixed(0);
+        },
+        rationCarb() {
+            return this.sumParams('carb').toFixed(0);
+        },
     },
 }
 </script>
@@ -118,6 +153,35 @@ export default {
                 font-weight: 700;
                 line-height: 16px;
             }
+        }
+
+        & .ration-empty {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+
+            & .area-button-add {
+                background: $gray3;
+                border: 1px solid $gray4;
+                box-sizing: border-box;
+                border-radius: 3px;
+                flex: 1;
+
+                & svg {
+                    width: 54px;
+                    height: 54px;
+                    opacity: 0.6;
+
+                    & path {
+                        fill: $gray4;
+                    }
+
+                    &:hover {
+                        opacity: 1;
+                    }
+                }
+            }
+
         }
         
         & .params {

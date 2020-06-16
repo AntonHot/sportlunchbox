@@ -20,10 +20,20 @@ export default Object.freeze({
         6: 'Суббота',
     },
 
-    MONTH_DIGITS: ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'],
-
+    WEEKDAYS_INDEX: {
+        'monday': 0,
+        'tuesday': 1,
+        'wednesday': 2,
+        'thursday': 3,
+        'friday': 4,
+        'saturday': 5,
+        'sunday': 6,
+    },
+    
     DATE_FORMAT: 'YYYY-MM-DD',
+    
     formatDate(str) {
+        const monthDigits = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'];
         let dateParsed = Date.parse(str);
         let date;
         if (isNaN(dateParsed)) {
@@ -32,7 +42,7 @@ export default Object.freeze({
             date = new Date(dateParsed);
         }
         let day = date.getDate();
-        let month = this.MONTH_DIGITS[date.getMonth()];
+        let month = monthDigits[date.getMonth()];
         let year = date.getFullYear();
         return `${day}.${month}.${year}`;
     },
